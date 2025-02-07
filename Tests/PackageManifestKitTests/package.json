@@ -1,0 +1,216 @@
+i{
+    "cLanguageStandard" : null,
+    "cxxLanguageStandard" : null,
+    "dependencies" : [
+      {
+        "sourceControl" : [
+          {
+            "identity" : "swift-atomics",
+            "location" : {
+              "remote" : [
+                {
+                  "urlString" : "https://github.com/apple/swift-atomics.git"
+                }
+              ]
+            },
+            "productFilter" : null,
+            "requirement" : {
+              "range" : [
+                {
+                  "lowerBound" : "1.0.3",
+                  "upperBound" : "2.0.0"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "sourceControl" : [
+          {
+            "identity" : "swift-nio",
+            "location" : {
+              "remote" : [
+                {
+                  "urlString" : "https://github.com/apple/swift-nio.git"
+                }
+              ]
+            },
+            "productFilter" : null,
+            "requirement" : {
+              "range" : [
+                {
+                  "lowerBound" : "2.0.0",
+                  "upperBound" : "3.0.0"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "sourceControl" : [
+          {
+            "identity" : "swift-log",
+            "location" : {
+              "remote" : [
+                {
+                  "urlString" : "https://github.com/apple/swift-log.git"
+                }
+              ]
+            },
+            "productFilter" : null,
+            "requirement" : {
+              "range" : [
+                {
+                  "lowerBound" : "1.5.2",
+                  "upperBound" : "2.0.0"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "sourceControl" : [
+          {
+            "identity" : "swift-collections",
+            "location" : {
+              "remote" : [
+                {
+                  "urlString" : "https://github.com/apple/swift-collections.git"
+                }
+              ]
+            },
+            "productFilter" : null,
+            "requirement" : {
+              "range" : [
+                {
+                  "lowerBound" : "1.0.4",
+                  "upperBound" : "2.0.0"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "sourceControl" : [
+          {
+            "identity" : "sdwebimage",
+            "location" : {
+              "remote" : [
+                {
+                  "urlString" : "https://github.com/SDWebImage/SDWebImage.git"
+                }
+              ]
+            },
+            "productFilter" : null,
+            "requirement" : {
+              "range" : [
+                {
+                  "lowerBound" : "5.15.0",
+                  "upperBound" : "6.0.0"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "name" : "IntegrationTestPackage",
+    "packageKind" : {
+      "root" : [
+        "/Users/giginet/.ghq/github.com/giginet/Scipio/Tests/ScipioKitTests/Resources/Fixtures/IntegrationTestPackage"
+      ]
+    },
+    "pkgConfig" : null,
+    "platforms" : [
+      {
+        "options" : [
+  
+        ],
+        "platformName" : "ios",
+        "version" : "14.0"
+      }
+    ],
+    "products" : [
+      {
+        "name" : "IntegrationTestPackage",
+        "settings" : [
+  
+        ],
+        "targets" : [
+          "IntegrationTestPackage"
+        ],
+        "type" : {
+          "library" : [
+            "automatic"
+          ]
+        }
+      }
+    ],
+    "providers" : null,
+    "swiftLanguageVersions" : null,
+    "targets" : [
+      {
+        "dependencies" : [
+          {
+            "product" : [
+              "Atomics",
+              "swift-atomics",
+              null,
+              null
+            ]
+          },
+          {
+            "product" : [
+              "NIO",
+              "swift-nio",
+              null,
+              null
+            ]
+          },
+          {
+            "product" : [
+              "Logging",
+              "swift-log",
+              null,
+              null
+            ]
+          },
+          {
+            "product" : [
+              "OrderedCollections",
+              "swift-collections",
+              null,
+              null
+            ]
+          },
+          {
+            "product" : [
+              "SDWebImageMapKit",
+              "SDWebImage",
+              null,
+              null
+            ]
+          }
+        ],
+        "exclude" : [
+  
+        ],
+        "name" : "IntegrationTestPackage",
+        "packageAccess" : false,
+        "resources" : [
+  
+        ],
+        "settings" : [
+  
+        ],
+        "type" : "regular"
+      }
+    ],
+    "toolsVersion" : {
+      "_version" : "5.7.0"
+    }
+  }

@@ -1,0 +1,67 @@
+{
+    "name": "PackageManifestKit",
+    "packageKind": {
+        "root": ["root"]
+    },
+    "pkgConfig": null,
+    "platforms": [
+        {
+            "platformName": "macos",
+            "version": "10.15",
+            "options": []
+        }
+    ],
+    "products": [
+        {
+            "name": "PackageManifestKit",
+            "type": {
+                "library": ["automatic"]
+            },
+            "targets": ["PackageManifestKit"],
+            "settings": []
+        }
+    ],
+    "providers": null,
+    "swiftLanguageVersions": ["5"],
+    "dependencies": [
+        {
+            "sourceControl": [
+                {
+                    "identity": "swift-testing",
+                    "location": {
+                        "remote": [
+                            {
+                                "urlString": "https://github.com/apple/swift-testing.git"
+                            }
+                        ]
+                    },
+                    "requirement": {
+                        "range": [
+                            {
+                                "lowerBound": "0.1.0",
+                                "upperBound": "1.0.0"
+                            }
+                        ]
+                    },
+                    "productFilter": null
+                }
+            ]
+        }
+    ],
+    "targets": [
+        {
+            "name": "PackageManifestKit",
+            "dependencies": [],
+            "exclude": [],
+            "resources": [],
+            "type": "regular",
+            "settings": [],
+            "packageAccess": false
+        }
+    ],
+    "toolsVersion": {
+        "_version": "5.9.0"
+    },
+    "cLanguageStandard": null,
+    "cxxLanguageStandard": null
+}
