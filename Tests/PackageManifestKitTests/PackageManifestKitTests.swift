@@ -64,7 +64,7 @@ struct ManifestTests {
         #expect(manifest.dependencies.count == 5)
 
         let firstDependency = try #require(manifest.dependencies.first)
-        guard case let .sourceControl(sourceControl) = firstDependency else {
+        guard case .sourceControl(let sourceControl) = firstDependency else {
             Issue.record("firstDependency must be sourceControl")
             return
         }

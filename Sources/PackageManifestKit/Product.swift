@@ -59,7 +59,7 @@ extension ProductType: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case let .library(a1):
+        case .library(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .library)
             try unkeyedContainer.encode(a1)
         case .executable:

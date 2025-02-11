@@ -239,17 +239,17 @@ extension Target.Dependency: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case let .target(a1, a2):
+        case .target(let a1, let a2):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .target)
             try unkeyedContainer.encode(a1)
             try unkeyedContainer.encode(a2)
-        case let .product(a1, a2, a3, a4):
+        case .product(let a1, let a2, let a3, let a4):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .product)
             try unkeyedContainer.encode(a1)
             try unkeyedContainer.encode(a2)
             try unkeyedContainer.encode(a3)
             try unkeyedContainer.encode(a4)
-        case let .byName(a1, a2):
+        case .byName(let a1, let a2):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .byName)
             try unkeyedContainer.encode(a1)
             try unkeyedContainer.encode(a2)
@@ -294,7 +294,7 @@ extension Target.PluginUsage: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case let .plugin(name, package):
+        case .plugin(let name, let package):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .plugin)
             try unkeyedContainer.encode(name)
             try unkeyedContainer.encode(package)

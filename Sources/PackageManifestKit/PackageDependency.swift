@@ -132,16 +132,16 @@ extension PackageDependency.SourceControl.Requirement: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case let .exact(a1):
+        case .exact(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .exact)
             try unkeyedContainer.encode(a1)
-        case let .range(a1):
+        case .range(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .range)
             try unkeyedContainer.encode(CodableRange(a1))
-        case let .revision(a1):
+        case .revision(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .revision)
             try unkeyedContainer.encode(a1)
-        case let .branch(a1):
+        case .branch(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .branch)
             try unkeyedContainer.encode(a1)
         }
@@ -226,10 +226,10 @@ extension PackageDependency.Registry.Requirement: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case let .exact(a1):
+        case .exact(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .exact)
             try unkeyedContainer.encode(a1)
-        case let .range(a1):
+        case .range(let a1):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .range)
             try unkeyedContainer.encode(CodableRange(a1))
         }

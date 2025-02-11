@@ -24,7 +24,7 @@
   "rules" : {
     "AllPublicDeclarationsHaveDocumentation" : false,
     "AlwaysUseLiteralForEmptyCollectionInit" : false,
-    "AlwaysUseLowerCamelCase" : true,
+    "AlwaysUseLowerCamelCase" : false,
     "AmbiguousTrailingClosureOverload" : true,
     "BeginDocumentationCommentWithOneLineSummary" : false,
     "DoNotUseSemicolons" : true,
@@ -38,7 +38,7 @@
     "NeverUseImplicitlyUnwrappedOptionals" : false,
     "NoAccessLevelOnExtensionDeclaration" : true,
     "NoAssignmentInExpressions" : true,
-    "NoBlockComments" : true,
+    "NoBlockComments" : false,
     "NoCasesWithOnlyFallthrough" : true,
     "NoEmptyTrailingClosureParentheses" : true,
     "NoLabelsInCasePatterns" : true,

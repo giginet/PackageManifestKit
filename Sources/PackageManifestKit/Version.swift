@@ -67,12 +67,12 @@ public enum VersionError: Error, CustomStringConvertible {
 
     public var description: String {
         switch self {
-        case let .nonASCIIVersionString(versionString):
+        case .nonASCIIVersionString(let versionString):
             return "non-ASCII characters in version string '\(versionString)'"
-        case let .invalidVersionCoreIdentifiersCount(identifiers, usesLenientParsing):
+        case .invalidVersionCoreIdentifiersCount(let identifiers, let usesLenientParsing):
             return
                 "\(identifiers.count > 3 ? "more than 3" : "fewer than \(usesLenientParsing ? 2 : 3)") identifiers in version core '\(identifiers.joined(separator: "."))'"
-        case let .nonNumericalOrEmptyVersionCoreIdentifiers(identifiers):
+        case .nonNumericalOrEmptyVersionCoreIdentifiers(let identifiers):
             if !identifiers.allSatisfy({ !$0.isEmpty }) {
                 return "empty identifiers in version core '\(identifiers.joined(separator: "."))'"
             } else {
@@ -81,14 +81,14 @@ public enum VersionError: Error, CustomStringConvertible {
                 return
                     "non-numerical characters in version core identifier\(nonNumericalIdentifiers.count > 1 ? "s" : "") \(nonNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
             }
-        case let .nonAlphaNumerHyphenalPrereleaseIdentifiers(identifiers):
+        case .nonAlphaNumerHyphenalPrereleaseIdentifiers(let identifiers):
             // Not checking for `.isASCII` here because non-ASCII characters should've already been caught before this.
             let nonAlphaNumericalIdentifiers = identifiers.filter {
                 !$0.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" }
             }
             return
                 "characters other than alpha-numerics and hyphens in pre-release identifier\(nonAlphaNumericalIdentifiers.count > 1 ? "s" : "") \(nonAlphaNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
-        case let .nonAlphaNumerHyphenalBuildMetadataIdentifiers(identifiers):
+        case .nonAlphaNumerHyphenalBuildMetadataIdentifiers(let identifiers):
             // Not checking for `.isASCII` here because non-ASCII characters should've already been caught before this.
             let nonAlphaNumericalIdentifiers = identifiers.filter {
                 !$0.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" }
