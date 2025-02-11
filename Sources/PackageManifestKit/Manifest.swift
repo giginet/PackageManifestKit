@@ -16,5 +16,5 @@ public struct Manifest: Codable, Sendable, Equatable {
     public let packageKind: PackageKind
     public let revision: String?
     public let defaultLocalization: String?
-    
+
 }

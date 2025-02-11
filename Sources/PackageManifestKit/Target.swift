@@ -14,7 +14,9 @@ public struct Target: Hashable, Codable, Sendable {
     /// Represents a target's dependency on another entity.
     public enum Dependency: Hashable, Sendable {
         case target(name: String, condition: PackageCondition?)
-        case product(name: String, package: String?, moduleAliases: [String: String]? = nil, condition: PackageCondition?)
+        case product(
+            name: String, package: String?, moduleAliases: [String: String]? = nil,
+            condition: PackageCondition?)
         case byName(name: String, condition: PackageCondition?)
 
         var condition: PackageCondition? {
@@ -32,11 +34,14 @@ public struct Target: Hashable, Codable, Sendable {
             return .target(name: name, condition: nil)
         }
 
-        public static func product(name: String, package: String? = nil, moduleAliases: [String: String]? = nil) -> Dependency {
-            return .product(name: name, package: package, moduleAliases: moduleAliases, condition: nil)
+        public static func product(
+            name: String, package: String? = nil, moduleAliases: [String: String]? = nil
+        ) -> Dependency {
+            return .product(
+                name: name, package: package, moduleAliases: moduleAliases, condition: nil)
         }
     }
-    
+
     /// A namespace for target-specific build settings.
     public enum TargetBuildSetting {
         /// The tool for which a build setting is declared.
@@ -73,8 +78,9 @@ public struct Target: Hashable, Codable, Sendable {
                 case .unsafeFlags(let flags):
                     // If `.unsafeFlags` is used, but doesn't specify any flags, we treat it the same way as not specifying it.
                     return !flags.isEmpty
-                case .headerSearchPath, .define, .linkedLibrary, .linkedFramework, .interoperabilityMode,
-                     .enableUpcomingFeature, .enableExperimentalFeature, .swiftLanguageMode:
+                case .headerSearchPath, .define, .linkedLibrary, .linkedFramework,
+                    .interoperabilityMode,
+                    .enableUpcomingFeature, .enableExperimentalFeature, .swiftLanguageMode:
                     return false
                 }
             }
@@ -102,7 +108,6 @@ public struct Target: Hashable, Codable, Sendable {
             }
         }
     }
-
 
     public struct Resource: Codable, Hashable, Sendable {
         public enum Rule: Codable, Hashable, Sendable {
@@ -171,16 +176,16 @@ public struct Target: Hashable, Codable, Sendable {
 
     /// The providers of a system library target.
     public let providers: [SystemPackageProvider]?
-    
+
     /// The declared capability for a package plugin target.
     public let pluginCapability: PluginCapability?
-    
+
     /// Represents the declared capability of a package plugin.
     public enum PluginCapability: Hashable, Sendable {
         case buildTool
         case command(intent: PluginCommandIntent, permissions: [PluginPermission])
     }
-    
+
     public enum PluginCommandIntent: Hashable, Codable, Sendable {
         case documentationGeneration
         case sourceCodeFormatting
@@ -216,7 +221,7 @@ public struct Target: Hashable, Codable, Sendable {
 
     /// The binary target checksum.
     public let checksum: String?
-    
+
     /// The usages of package plugins by the target.
     public let pluginUsages: [PluginUsage]?
 
@@ -254,7 +259,10 @@ extension Target.Dependency: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = values.allKeys.first(where: values.contains) else {
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Did not find a matching key"))
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath, debugDescription: "Did not find a matching key")
+            )
         }
         switch key {
         case .target:
@@ -296,7 +304,10 @@ extension Target.PluginUsage: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = values.allKeys.first(where: values.contains) else {
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Did not find a matching key"))
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath, debugDescription: "Did not find a matching key")
+            )
         }
         switch key {
         case .plugin:
@@ -328,7 +339,10 @@ extension Target.PluginCapability: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = values.allKeys.first(where: values.contains) else {
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Did not find a matching key"))
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath, debugDescription: "Did not find a matching key")
+            )
         }
         switch key {
         case .buildTool:

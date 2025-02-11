@@ -15,7 +15,7 @@ public enum PackageKind: Sendable, Equatable {
 
     /// A package from  a registry.
     case registry(String)
-    
+
     var isRoot: Bool {
         if case .root = self {
             return true
@@ -59,8 +59,9 @@ extension PackageKind: Decodable {
         // Usually, you'd ensure exactly one key is present:
         guard let key = container.allKeys.first else {
             throw DecodingError.dataCorrupted(
-                .init(codingPath: decoder.codingPath,
-                      debugDescription: "No keys found for PackageKind.")
+                .init(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "No keys found for PackageKind.")
             )
         }
 

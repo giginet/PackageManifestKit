@@ -1,7 +1,6 @@
 import Foundation
 
-public struct Product: Hashable, Sendable, Codable
-{
+public struct Product: Hashable, Sendable, Codable {
 
     /// The name of the product.
     public let name: String
@@ -79,7 +78,10 @@ extension ProductType: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = values.allKeys.first(where: values.contains) else {
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Did not find a matching key"))
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath, debugDescription: "Did not find a matching key")
+            )
         }
         switch key {
         case .library:

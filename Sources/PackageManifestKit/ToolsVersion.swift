@@ -17,9 +17,9 @@ public struct ToolsVersion: Codable, Sendable, Equatable {
     public static let v6_0 = ToolsVersion(version: "6.0.0")
     public static let v6_1 = ToolsVersion(version: "6.1.0")
     public static let vNext = ToolsVersion(version: "999.0.0")
-    
+
     private let _version: String
-    
+
     init(version: String) {
         self._version = version
     }

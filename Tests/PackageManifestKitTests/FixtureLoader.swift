@@ -7,7 +7,7 @@ enum FixtureLoader {
             .appending(component: "Fixtures")
             .appending(components: filename)
         let fileManager: FileManager = .default
-        
+
         return fileManager.contents(atPath: fixturePath.path(percentEncoded: false))
     }
 }

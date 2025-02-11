@@ -24,7 +24,7 @@ public enum PackageDependency: Equatable, Hashable, Sendable {
     case fileSystem(FileSystem)
     case sourceControl(SourceControl)
     case registry(Registry)
-    
+
     public struct FileSystem: Equatable, Hashable, Codable, Sendable {
         public let identity: String
         public let nameForTargetDependencyResolutionOnly: String?
@@ -36,12 +36,12 @@ public enum PackageDependency: Equatable, Hashable, Sendable {
     public struct SourceControl: Equatable, Hashable, Codable, Sendable {
         public struct RemoteURL: Codable, Equatable, Hashable, Sendable {
             private let urlString: String
-            
+
             init(urlString: String) {
                 self.urlString = urlString
             }
         }
-        
+
         public let identity: String
         public let nameForTargetDependencyResolutionOnly: String?
         public let location: Location
@@ -95,7 +95,7 @@ extension PackageDependency: Codable {
             try unkeyedContainer.encode(settings)
         }
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         // We'll look at which key is present. Exactly one of .fileSystem,
@@ -105,18 +105,15 @@ extension PackageDependency: Codable {
             var unkeyed = try container.nestedUnkeyedContainer(forKey: .fileSystem)
             let settings = try unkeyed.decode(FileSystem.self)
             self = .fileSystem(settings)
-        }
-        else if container.contains(.sourceControl) {
+        } else if container.contains(.sourceControl) {
             var unkeyed = try container.nestedUnkeyedContainer(forKey: .sourceControl)
             let settings = try unkeyed.decode(SourceControl.self)
             self = .sourceControl(settings)
-        }
-        else if container.contains(.registry) {
+        } else if container.contains(.registry) {
             var unkeyed = try container.nestedUnkeyedContainer(forKey: .registry)
             let settings = try unkeyed.decode(Registry.self)
             self = .registry(settings)
-        }
-        else {
+        } else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: container.codingPath,
@@ -159,23 +156,19 @@ extension PackageDependency.SourceControl.Requirement: Codable {
             let value = try nested.decode(String.self)
             let version = try Version(versionString: value)
             self = .exact(version)
-        }
-        else if container.contains(.range) {
+        } else if container.contains(.range) {
             var nested = try container.nestedUnkeyedContainer(forKey: .range)
             let codableRange = try nested.decode(CodableRange<Version>.self)
             self = .range(codableRange.range)
-        }
-        else if container.contains(.revision) {
+        } else if container.contains(.revision) {
             var nested = try container.nestedUnkeyedContainer(forKey: .revision)
             let value = try nested.decode(String.self)
             self = .revision(value)
-        }
-        else if container.contains(.branch) {
+        } else if container.contains(.branch) {
             var nested = try container.nestedUnkeyedContainer(forKey: .branch)
             let value = try nested.decode(String.self)
             self = .branch(value)
-        }
-        else {
+        } else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: container.codingPath,
@@ -202,7 +195,7 @@ extension PackageDependency.SourceControl.Location: Codable {
             try unkeyedContainer.encode(url)
         }
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -210,13 +203,11 @@ extension PackageDependency.SourceControl.Location: Codable {
             var nested = try container.nestedUnkeyedContainer(forKey: .local)
             let path = try nested.decode(URL.self)
             self = .local(path)
-        }
-        else if container.contains(.remote) {
+        } else if container.contains(.remote) {
             var nested = try container.nestedUnkeyedContainer(forKey: .remote)
             let url = try nested.decode(PackageDependency.SourceControl.RemoteURL.self)
             self = .remote(url)
-        }
-        else {
+        } else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: container.codingPath,
@@ -243,7 +234,7 @@ extension PackageDependency.Registry.Requirement: Codable {
             try unkeyedContainer.encode(CodableRange(a1))
         }
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -251,13 +242,11 @@ extension PackageDependency.Registry.Requirement: Codable {
             var nested = try container.nestedUnkeyedContainer(forKey: .exact)
             let version = try nested.decode(Version.self)
             self = .exact(version)
-        }
-        else if container.contains(.range) {
+        } else if container.contains(.range) {
             var nested = try container.nestedUnkeyedContainer(forKey: .range)
             let codableRange = try nested.decode(CodableRange<Version>.self)
             self = .range(codableRange.range)
-        }
-        else {
+        } else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: container.codingPath,

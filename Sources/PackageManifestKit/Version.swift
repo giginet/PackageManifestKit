@@ -70,23 +70,31 @@ public enum VersionError: Error, CustomStringConvertible {
         case let .nonASCIIVersionString(versionString):
             return "non-ASCII characters in version string '\(versionString)'"
         case let .invalidVersionCoreIdentifiersCount(identifiers, usesLenientParsing):
-            return "\(identifiers.count > 3 ? "more than 3" : "fewer than \(usesLenientParsing ? 2 : 3)") identifiers in version core '\(identifiers.joined(separator: "."))'"
+            return
+                "\(identifiers.count > 3 ? "more than 3" : "fewer than \(usesLenientParsing ? 2 : 3)") identifiers in version core '\(identifiers.joined(separator: "."))'"
         case let .nonNumericalOrEmptyVersionCoreIdentifiers(identifiers):
-            if !identifiers.allSatisfy( { !$0.isEmpty } ) {
+            if !identifiers.allSatisfy({ !$0.isEmpty }) {
                 return "empty identifiers in version core '\(identifiers.joined(separator: "."))'"
             } else {
                 // Not checking for `.isASCII` here because non-ASCII characters should've already been caught before this.
                 let nonNumericalIdentifiers = identifiers.filter { !$0.allSatisfy(\.isNumber) }
-                return "non-numerical characters in version core identifier\(nonNumericalIdentifiers.count > 1 ? "s" : "") \(nonNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
+                return
+                    "non-numerical characters in version core identifier\(nonNumericalIdentifiers.count > 1 ? "s" : "") \(nonNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
             }
         case let .nonAlphaNumerHyphenalPrereleaseIdentifiers(identifiers):
             // Not checking for `.isASCII` here because non-ASCII characters should've already been caught before this.
-            let nonAlphaNumericalIdentifiers = identifiers.filter { !$0.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" } }
-            return "characters other than alpha-numerics and hyphens in pre-release identifier\(nonAlphaNumericalIdentifiers.count > 1 ? "s" : "") \(nonAlphaNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
+            let nonAlphaNumericalIdentifiers = identifiers.filter {
+                !$0.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" }
+            }
+            return
+                "characters other than alpha-numerics and hyphens in pre-release identifier\(nonAlphaNumericalIdentifiers.count > 1 ? "s" : "") \(nonAlphaNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
         case let .nonAlphaNumerHyphenalBuildMetadataIdentifiers(identifiers):
             // Not checking for `.isASCII` here because non-ASCII characters should've already been caught before this.
-            let nonAlphaNumericalIdentifiers = identifiers.filter { !$0.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" } }
-            return "characters other than alpha-numerics and hyphens in build metadata identifier\(nonAlphaNumericalIdentifiers.count > 1 ? "s" : "") \(nonAlphaNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
+            let nonAlphaNumericalIdentifiers = identifiers.filter {
+                !$0.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" }
+            }
+            return
+                "characters other than alpha-numerics and hyphens in build metadata identifier\(nonAlphaNumericalIdentifiers.count > 1 ? "s" : "") \(nonAlphaNumericalIdentifiers.map { "'\($0)'" } .joined(separator: ", "))"
         }
     }
 }
@@ -111,13 +119,21 @@ extension Version {
 
         let metadataDelimiterIndex = versionString.firstIndex(of: "+")
         // SemVer 2.0.0 requires that pre-release identifiers come before build metadata identifiers
-        let prereleaseDelimiterIndex = versionString[..<(metadataDelimiterIndex ?? versionString.endIndex)].firstIndex(of: "-")
+        let prereleaseDelimiterIndex = versionString[
+            ..<(metadataDelimiterIndex ?? versionString.endIndex)
+        ].firstIndex(of: "-")
 
-        let versionCore = versionString[..<(prereleaseDelimiterIndex ?? metadataDelimiterIndex ?? versionString.endIndex)]
-        let versionCoreIdentifiers = versionCore.split(separator: ".", omittingEmptySubsequences: false)
+        let versionCore = versionString[
+            ..<(prereleaseDelimiterIndex ?? metadataDelimiterIndex ?? versionString.endIndex)]
+        let versionCoreIdentifiers = versionCore.split(
+            separator: ".", omittingEmptySubsequences: false)
 
-        guard versionCoreIdentifiers.count == 3 || (usesLenientParsing && versionCoreIdentifiers.count == 2) else {
-            throw VersionError.invalidVersionCoreIdentifiersCount(versionCoreIdentifiers.map { String($0) }, usesLenientParsing: usesLenientParsing)
+        guard
+            versionCoreIdentifiers.count == 3
+                || (usesLenientParsing && versionCoreIdentifiers.count == 2)
+        else {
+            throw VersionError.invalidVersionCoreIdentifiersCount(
+                versionCoreIdentifiers.map { String($0) }, usesLenientParsing: usesLenientParsing)
         }
 
         guard
@@ -125,9 +141,11 @@ extension Version {
             // Converting each identifier from a substring to an integer doubles as checking if the identifiers have non-numeric characters.
             let major = Int(versionCoreIdentifiers[0]),
             let minor = Int(versionCoreIdentifiers[1]),
-            let patch = usesLenientParsing && versionCoreIdentifiers.count == 2 ? 0 : Int(versionCoreIdentifiers[2])
+            let patch = usesLenientParsing && versionCoreIdentifiers.count == 2
+                ? 0 : Int(versionCoreIdentifiers[2])
         else {
-            throw VersionError.nonNumericalOrEmptyVersionCoreIdentifiers(versionCoreIdentifiers.map { String($0) })
+            throw VersionError.nonNumericalOrEmptyVersionCoreIdentifiers(
+                versionCoreIdentifiers.map { String($0) })
         }
 
         self.major = major
@@ -136,9 +154,16 @@ extension Version {
 
         if let prereleaseDelimiterIndex = prereleaseDelimiterIndex {
             let prereleaseStartIndex = versionString.index(after: prereleaseDelimiterIndex)
-            let prereleaseIdentifiers = versionString[prereleaseStartIndex..<(metadataDelimiterIndex ?? versionString.endIndex)].split(separator: ".", omittingEmptySubsequences: false)
-            guard prereleaseIdentifiers.allSatisfy( { $0.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "-" }) } ) else {
-                throw VersionError.nonAlphaNumerHyphenalPrereleaseIdentifiers(prereleaseIdentifiers.map { String($0) })
+            let prereleaseIdentifiers = versionString[
+                prereleaseStartIndex..<(metadataDelimiterIndex ?? versionString.endIndex)
+            ].split(separator: ".", omittingEmptySubsequences: false)
+            guard
+                prereleaseIdentifiers.allSatisfy({
+                    $0.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "-" })
+                })
+            else {
+                throw VersionError.nonAlphaNumerHyphenalPrereleaseIdentifiers(
+                    prereleaseIdentifiers.map { String($0) })
             }
             self.prereleaseIdentifiers = prereleaseIdentifiers.map { String($0) }
         } else {
@@ -147,9 +172,15 @@ extension Version {
 
         if let metadataDelimiterIndex = metadataDelimiterIndex {
             let metadataStartIndex = versionString.index(after: metadataDelimiterIndex)
-            let buildMetadataIdentifiers = versionString[metadataStartIndex...].split(separator: ".", omittingEmptySubsequences: false)
-            guard buildMetadataIdentifiers.allSatisfy( { $0.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "-" }) } ) else {
-                throw VersionError.nonAlphaNumerHyphenalBuildMetadataIdentifiers(buildMetadataIdentifiers.map { String($0) })
+            let buildMetadataIdentifiers = versionString[metadataStartIndex...].split(
+                separator: ".", omittingEmptySubsequences: false)
+            guard
+                buildMetadataIdentifiers.allSatisfy({
+                    $0.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "-" })
+                })
+            else {
+                throw VersionError.nonAlphaNumerHyphenalBuildMetadataIdentifiers(
+                    buildMetadataIdentifiers.map { String($0) })
             }
             self.buildMetadataIdentifiers = buildMetadataIdentifiers.map { String($0) }
         } else {
@@ -179,29 +210,32 @@ extension Version: Comparable, Hashable {
         }
 
         guard lhs.prereleaseIdentifiers.count > 0 else {
-            return false // Non-prerelease lhs >= potentially prerelease rhs
+            return false  // Non-prerelease lhs >= potentially prerelease rhs
         }
 
         guard rhs.prereleaseIdentifiers.count > 0 else {
-            return true // Prerelease lhs < non-prerelease rhs
+            return true  // Prerelease lhs < non-prerelease rhs
         }
 
-        for (lhsPrereleaseIdentifier, rhsPrereleaseIdentifier) in zip(lhs.prereleaseIdentifiers, rhs.prereleaseIdentifiers) {
+        for (lhsPrereleaseIdentifier, rhsPrereleaseIdentifier) in zip(
+            lhs.prereleaseIdentifiers, rhs.prereleaseIdentifiers)
+        {
             if lhsPrereleaseIdentifier == rhsPrereleaseIdentifier {
                 continue
             }
-            
+
             // Check if either of the 2 pre-release identifiers is numeric.
             let lhsNumericPrereleaseIdentifier = Int(lhsPrereleaseIdentifier)
             let rhsNumericPrereleaseIdentifier = Int(rhsPrereleaseIdentifier)
-            
+
             if let lhsNumericPrereleaseIdentifier = lhsNumericPrereleaseIdentifier,
-               let rhsNumericPrereleaseIdentifier = rhsNumericPrereleaseIdentifier {
+                let rhsNumericPrereleaseIdentifier = rhsNumericPrereleaseIdentifier
+            {
                 return lhsNumericPrereleaseIdentifier < rhsNumericPrereleaseIdentifier
             } else if lhsNumericPrereleaseIdentifier != nil {
-                return true // numeric pre-release < non-numeric pre-release
+                return true  // numeric pre-release < non-numeric pre-release
             } else if rhsNumericPrereleaseIdentifier != nil {
-                return false // non-numeric pre-release > numeric pre-release
+                return false  // non-numeric pre-release > numeric pre-release
             } else {
                 return lhsPrereleaseIdentifier < rhsPrereleaseIdentifier
             }
@@ -280,9 +314,10 @@ extension Version: Codable {
         let string = try container.decode(String.self)
 
         guard let version = Version(string) else {
-            throw DecodingError.dataCorrupted(.init(
-                codingPath: decoder.codingPath,
-                debugDescription: "Invalid version string \(string)"))
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Invalid version string \(string)"))
         }
 
         self = version
@@ -312,14 +347,17 @@ extension Range where Bound == Version {
         // Special cases if version contains prerelease identifiers.
         if !version.prereleaseIdentifiers.isEmpty {
             // If the range does not contain prerelease identifiers, return false.
-            if lowerBound.prereleaseIdentifiers.isEmpty && upperBound.prereleaseIdentifiers.isEmpty {
+            if lowerBound.prereleaseIdentifiers.isEmpty && upperBound.prereleaseIdentifiers.isEmpty
+            {
                 return false
             }
 
             // At this point, one of the bounds contains prerelease identifiers.
             //
             // Reject 2.0.0-alpha when upper bound is 2.0.0.
-            if upperBound.prereleaseIdentifiers.isEmpty && upperBound.isEqualWithoutPrerelease(version) {
+            if upperBound.prereleaseIdentifiers.isEmpty
+                && upperBound.isEqualWithoutPrerelease(version)
+            {
                 return false
             }
         }

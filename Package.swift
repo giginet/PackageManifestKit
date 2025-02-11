@@ -7,7 +7,7 @@ let package = Package(
     products: [
         .library(
             name: "PackageManifestKit",
-            targets: ["PackageManifestKit"]),
+            targets: ["PackageManifestKit"])
     ],
     targets: [
         .target(
@@ -15,7 +15,7 @@ let package = Package(
         .testTarget(
             name: "PackageManifestKitTests",
             dependencies: [
-                "PackageManifestKit",
+                "PackageManifestKit"
             ]
         ),
     ]
