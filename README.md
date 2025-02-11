@@ -15,7 +15,7 @@ Swift model collections for parsing `Package.swift`.
 
 ## Overview
 
-SwiftPM has a feature to dump the `Package.swift` resolution result as JSON. This package provides `Codable' models to handle the JSON.
+SwiftPM has a feature to dump the `Package.swift` resolution result as JSON. This package provides `Codable` models to handle the JSON.
 
 ```console
 swift package dump-package > package.json
