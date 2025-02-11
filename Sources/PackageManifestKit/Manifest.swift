@@ -7,10 +7,6 @@ import Foundation
 
 public struct Manifest: Codable, Sendable {
     public let name: String
-    public let path: String?
-    public let url: String?
-    public let version: String?
-//    public let targetMap: [String: TargetDescription]?
     public let toolsVersion: ToolsVersion
     public let pkgConfig: String?
     public let providers: [SystemPackageProvider]?
