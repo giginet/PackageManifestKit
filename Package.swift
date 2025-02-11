@@ -18,5 +18,6 @@ let package = Package(
                 "PackageManifestKit"
             ]
         ),
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
