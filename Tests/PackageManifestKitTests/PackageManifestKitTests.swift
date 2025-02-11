@@ -11,6 +11,23 @@ struct ManifestTests {
         
         let manifest = try jsonDecoder.decode(Manifest.self, from: jsonData)
         
+        // Basic properties
         #expect(manifest.name == "MyFramework")
+        #expect(manifest.packageKind.isRoot)
+        
+        // Platforms
+        #expect(manifest.platforms?.isEmpty == true)
+        
+        // Swift Language Version
+        #expect(manifest.swiftLanguageVersions == nil)
+        
+        // Tools Version
+        #expect(manifest.toolsVersion == .v6_0)
+        
+        // Optional properties
+        #expect(manifest.pkgConfig == nil)
+        #expect(manifest.providers == nil)
+        #expect(manifest.cLanguageStandard == nil)
+        #expect(manifest.cxxLanguageStandard == nil)
     }
 }
