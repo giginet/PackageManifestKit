@@ -24,6 +24,12 @@ struct ManifestTests {
         // Tools Version
         #expect(manifest.toolsVersion == .v6_0)
         
+        // Products
+        #expect(manifest.products.count == 1)
+        let myFrameworkProduct = try #require(manifest.products.first)
+        #expect(myFrameworkProduct.targets == ["MyFramework"])
+        #expect(myFrameworkProduct.type == .library(.automatic))
+        
         // Optional properties
         #expect(manifest.pkgConfig == nil)
         #expect(manifest.providers == nil)
