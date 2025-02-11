@@ -15,7 +15,7 @@ public struct Manifest: Codable, Sendable {
     public let swiftLanguageVersions: [SwiftLanguageVersion]?
 //    public let dependencies: [Dependency]
     public let products: [Product]
-//    public let targets: [Target]
+    public let targets: [Target]
     public let traits: [String]?
     public let platforms: [Platform]?
     public let packageKind: PackageKind

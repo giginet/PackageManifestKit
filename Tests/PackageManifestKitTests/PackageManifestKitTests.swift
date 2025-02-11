@@ -30,6 +30,20 @@ struct ManifestTests {
         #expect(myFrameworkProduct.targets == ["MyFramework"])
         #expect(myFrameworkProduct.type == .library(.automatic))
         
+        // Targets
+        #expect(manifest.targets.count == 2)
+        let myFrameworkTarget = try #require(manifest.targets.first)
+        #expect(myFrameworkTarget.name == "MyFramework")
+        #expect(myFrameworkTarget.packageAccess)
+        #expect(myFrameworkTarget.type == .regular)
+        #expect(!myFrameworkTarget.isTest)
+        
+        let myFrameworkTestTarget = try #require(manifest.targets.last)
+        #expect(myFrameworkTestTarget.name == "MyFrameworkTests")
+        #expect(myFrameworkTestTarget.packageAccess)
+        #expect(myFrameworkTestTarget.type == .test)
+        #expect(myFrameworkTestTarget.isTest)
+        
         // Optional properties
         #expect(manifest.pkgConfig == nil)
         #expect(manifest.providers == nil)
