@@ -5,7 +5,7 @@ import Foundation
 //     dependencies, products, targets, traits, platforms, packageKind, revision,
 //     defaultLocalization
 
-public struct Manifest: Codable, Sendable {
+public struct Manifest: Codable, Sendable, Equatable {
     public let name: String
     public let toolsVersion: ToolsVersion
     public let pkgConfig: String?

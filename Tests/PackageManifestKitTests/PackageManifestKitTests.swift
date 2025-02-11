@@ -5,6 +5,7 @@ import Foundation
 @Suite
 struct ManifestTests {
     private let jsonDecoder = JSONDecoder()
+    private let jsonEncoder = JSONEncoder()
     
     @Test func decodeManifest() async throws {
         let jsonData = try #require(FixtureLoader.load(named: "simple_package.json"))
@@ -52,5 +53,16 @@ struct ManifestTests {
         #expect(manifest.providers == nil)
         #expect(manifest.cLanguageStandard == nil)
         #expect(manifest.cxxLanguageStandard == nil)
+    }
+    
+    @Test
+    func roundTrip() throws {
+        let jsonData = try #require(FixtureLoader.load(named: "simple_package.json"))
+        let manifest = try jsonDecoder.decode(Manifest.self, from: jsonData)
+        
+        let encodedData = try jsonEncoder.encode(manifest)
+        let redecodedManifest = try jsonDecoder.decode(Manifest.self, from: encodedData)
+        
+        #expect(manifest == redecodedManifest)
     }
 }
