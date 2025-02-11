@@ -266,7 +266,7 @@ extension Target.Dependency: Codable {
             var unkeyedValues = try values.nestedUnkeyedContainer(forKey: key)
             let a1 = try unkeyedValues.decode(String.self)
             let a2 = try unkeyedValues.decodeIfPresent(String.self)
-            let a3 = try unkeyedValues.decode([String: String].self)
+            let a3 = try unkeyedValues.decodeIfPresent([String: String].self)
             let a4 = try unkeyedValues.decodeIfPresent(PackageCondition.self)
             self = .product(name: a1, package: a2, moduleAliases: a3, condition: a4)
         case .byName:

@@ -34,6 +34,14 @@ public enum PackageDependency: Equatable, Hashable, Sendable {
     }
 
     public struct SourceControl: Equatable, Hashable, Codable, Sendable {
+        public struct RemoteURL: Codable, Equatable, Hashable, Sendable {
+            private let urlString: String
+            
+            init(urlString: String) {
+                self.urlString = urlString
+            }
+        }
+        
         public let identity: String
         public let nameForTargetDependencyResolutionOnly: String?
         public let location: Location
@@ -42,15 +50,15 @@ public enum PackageDependency: Equatable, Hashable, Sendable {
         package let traits: Set<Trait>?
 
         public enum Requirement: Equatable, Hashable, Sendable {
-            case exact(String)
-            case range(Range<String>)
+            case exact(Version)
+            case range(Range<Version>)
             case revision(String)
             case branch(String)
         }
 
         public enum Location: Equatable, Hashable, Sendable {
             case local(URL)
-            case remote(SourceControlURL)
+            case remote(RemoteURL)
         }
     }
 
@@ -149,11 +157,12 @@ extension PackageDependency.SourceControl.Requirement: Codable {
         if container.contains(.exact) {
             var nested = try container.nestedUnkeyedContainer(forKey: .exact)
             let value = try nested.decode(String.self)
-            self = .exact(value)
+            let version = try Version(versionString: value)
+            self = .exact(version)
         }
         else if container.contains(.range) {
             var nested = try container.nestedUnkeyedContainer(forKey: .range)
-            let codableRange = try nested.decode(CodableRange<String>.self)
+            let codableRange = try nested.decode(CodableRange<Version>.self)
             self = .range(codableRange.range)
         }
         else if container.contains(.revision) {
@@ -204,7 +213,7 @@ extension PackageDependency.SourceControl.Location: Codable {
         }
         else if container.contains(.remote) {
             var nested = try container.nestedUnkeyedContainer(forKey: .remote)
-            let url = try nested.decode(SourceControlURL.self)
+            let url = try nested.decode(PackageDependency.SourceControl.RemoteURL.self)
             self = .remote(url)
         }
         else {
@@ -257,9 +266,4 @@ extension PackageDependency.Registry.Requirement: Codable {
             )
         }
     }
-}
-
-
-public struct SourceControlURL: Codable, Equatable, Hashable, Sendable {
-    private let urlString: String
 }

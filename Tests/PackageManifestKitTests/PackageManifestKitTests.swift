@@ -7,7 +7,7 @@ struct ManifestTests {
     private let jsonDecoder = JSONDecoder()
     private let jsonEncoder = JSONEncoder()
     
-    @Test func decodeManifest() async throws {
+    @Test func decodeSimplePackageManifest() async throws {
         let jsonData = try #require(FixtureLoader.load(named: "simple_package.json"))
         
         let manifest = try jsonDecoder.decode(Manifest.self, from: jsonData)
@@ -56,8 +56,38 @@ struct ManifestTests {
     }
     
     @Test
-    func roundTrip() throws {
-        let jsonData = try #require(FixtureLoader.load(named: "simple_package.json"))
+    func decodeIntegrationTestPackage() async throws {
+        let jsonData = try #require(FixtureLoader.load(named: "integration_test_package.json"))
+        
+        let manifest = try jsonDecoder.decode(Manifest.self, from: jsonData)
+        #expect(manifest.dependencies.count == 5)
+        
+        let firstDependency = try #require(manifest.dependencies.first)
+        guard case let .sourceControl(sourceControl) = firstDependency else {
+            Issue.record("firstDependency must be sourceControl")
+            return
+        }
+        #expect(sourceControl.identity == "swift-atomics")
+        #expect(
+            sourceControl.location ==
+                .remote(PackageDependency.SourceControl.RemoteURL(
+                    urlString: "https://github.com/apple/swift-atomics.git"
+                ))
+        )
+        #expect(sourceControl.productFilter == .everything)
+        #expect(
+            sourceControl.requirement == .range(
+                Version("1.0.3")..<Version("2.0.0")
+            )
+        )
+    }
+    
+    @Test("Decoder and Encoders are identical", arguments: [
+        "simple_package",
+        "integration_test_package",
+    ])
+    func roundTrip(filename: String) throws {
+        let jsonData = try #require(FixtureLoader.load(named: "\(filename).json"))
         let manifest = try jsonDecoder.decode(Manifest.self, from: jsonData)
         
         let encodedData = try jsonEncoder.encode(manifest)
