@@ -1,10 +1,5 @@
 import Foundation
 
-//case name, path, url, version, targetMap, toolsVersion,
-//     pkgConfig, providers, cLanguageStandard, cxxLanguageStandard, swiftLanguageVersions,
-//     dependencies, products, targets, traits, platforms, packageKind, revision,
-//     defaultLocalization
-
 public struct Manifest: Codable, Sendable, Equatable {
     public let name: String
     public let toolsVersion: ToolsVersion
