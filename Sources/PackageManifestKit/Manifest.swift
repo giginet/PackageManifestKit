@@ -13,7 +13,7 @@ public struct Manifest: Codable, Sendable {
     public let cLanguageStandard: String?
     public let cxxLanguageStandard: String?
     public let swiftLanguageVersions: [SwiftLanguageVersion]?
-//    public let dependencies: [Dependency]
+    public let dependencies: [PackageDependency]
     public let products: [Product]
     public let targets: [Target]
     public let traits: [String]?

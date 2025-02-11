@@ -44,6 +44,9 @@ struct ManifestTests {
         #expect(myFrameworkTestTarget.type == .test)
         #expect(myFrameworkTestTarget.isTest)
         
+        // Dependencies
+        #expect(manifest.dependencies.isEmpty)
+        
         // Optional properties
         #expect(manifest.pkgConfig == nil)
         #expect(manifest.providers == nil)
