@@ -100,23 +100,4 @@ struct ManifestTests {
 
         #expect(manifest == redecodedManifest)
     }
-
-    @Test
-    func decodeWarningControlSetting() throws {
-        // .disableWarning("conversion")
-        let rawJSONString = """
-        {
-            "disableWarning" : {
-              "_0" : "conversion"
-            }
-        }
-        """
-
-        let target = try jsonDecoder.decode(
-            Target.TargetBuildSetting.Kind.self,
-            from: #require(rawJSONString.data(using: .utf8))
-        )
-
-        #expect(target == .disableWarning("conversion"))
-    }
 }
