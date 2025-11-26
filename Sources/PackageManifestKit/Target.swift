@@ -73,6 +73,8 @@ public struct Target: Hashable, Codable, Sendable {
 
             case swiftLanguageMode(SwiftLanguageVersion)
 
+            case disableWarning(String)
+
             public var isUnsafeFlags: Bool {
                 switch self {
                 case .unsafeFlags(let flags):
@@ -80,7 +82,8 @@ public struct Target: Hashable, Codable, Sendable {
                     return !flags.isEmpty
                 case .headerSearchPath, .define, .linkedLibrary, .linkedFramework,
                     .interoperabilityMode,
-                    .enableUpcomingFeature, .enableExperimentalFeature, .swiftLanguageMode:
+                    .enableUpcomingFeature, .enableExperimentalFeature, .swiftLanguageMode,
+                    .disableWarning:
                     return false
                 }
             }
