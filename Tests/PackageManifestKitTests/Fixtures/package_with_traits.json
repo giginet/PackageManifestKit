@@ -1,0 +1,72 @@
+{
+  "cLanguageStandard" : null,
+  "cxxLanguageStandard" : null,
+  "dependencies" : [
+
+  ],
+  "name" : "MyFramework",
+  "packageKind" : {
+    "root" : [
+      "/Users/giginet/work/Swift/build-playground/MyFramework"
+    ]
+  },
+  "pkgConfig" : null,
+  "platforms" : [
+
+  ],
+  "products" : [
+    {
+      "name" : "MyFramework",
+      "settings" : [
+
+      ],
+      "targets" : [
+        "MyFramework"
+      ],
+      "type" : {
+        "library" : [
+          "automatic"
+        ]
+      }
+    }
+  ],
+  "providers" : null,
+  "swiftLanguageVersions" : null,
+  "targets" : [
+    {
+      "dependencies" : [
+
+      ],
+      "exclude" : [
+
+      ],
+      "name" : "MyFramework",
+      "packageAccess" : true,
+      "resources" : [
+
+      ],
+      "settings" : [
+
+      ],
+      "type" : "regular"
+    }
+  ],
+  "traits" : [
+    {
+      "enabledTraits" : [
+        "FoundationURL"
+      ],
+      "name" : "default"
+    },
+    {
+      "description" : "Use Foundation URL type",
+      "enabledTraits" : [
+
+      ],
+      "name" : "FoundationURL"
+    }
+  ],
+  "toolsVersion" : {
+    "_version" : "6.1.0"
+  }
+}

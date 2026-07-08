@@ -11,7 +11,7 @@ public struct Manifest: Codable, Sendable, Equatable {
     public let dependencies: [PackageDependency]
     public let products: [Product]
     public let targets: [Target]
-    public let traits: [String]?
+    public let traits: [TraitDescription]?
     public let platforms: [Platform]?
     public let packageKind: PackageKind
     public let revision: String?

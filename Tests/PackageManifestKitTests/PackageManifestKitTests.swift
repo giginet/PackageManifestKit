@@ -85,11 +85,29 @@ struct ManifestTests {
         )
     }
 
+    @Test func decodePackageWithTraits() throws {
+        let jsonData = try #require(FixtureLoader.load(named: "package_with_traits.json"))
+
+        let manifest = try jsonDecoder.decode(Manifest.self, from: jsonData)
+
+        let traits = try #require(manifest.traits)
+        #expect(traits.count == 2)
+
+        let defaultTrait = try #require(traits.first { $0.name == "default" })
+        #expect(defaultTrait.enabledTraits == ["FoundationURL"])
+        #expect(defaultTrait.description == nil)
+
+        let foundationURLTrait = try #require(traits.first { $0.name == "FoundationURL" })
+        #expect(foundationURLTrait.description == "Use Foundation URL type")
+        #expect(foundationURLTrait.enabledTraits.isEmpty)
+    }
+
     @Test(
         "Decoder and Encoders are identical",
         arguments: [
             "simple_package",
             "integration_test_package",
+            "package_with_traits",
         ])
     func roundTrip(filename: String) throws {
         let jsonData = try #require(FixtureLoader.load(named: "\(filename).json"))
