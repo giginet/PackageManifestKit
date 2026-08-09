@@ -73,6 +73,12 @@ public struct Target: Hashable, Codable, Sendable {
 
             case swiftLanguageMode(SwiftLanguageVersion)
 
+            // SwiftPM 6.2+
+            case strictMemorySafety
+            case treatAllWarnings(String)
+            case treatWarning(String, String)
+            case defaultIsolation(String)
+
             case disableWarning(String)
 
             public var isUnsafeFlags: Bool {
@@ -83,6 +89,7 @@ public struct Target: Hashable, Codable, Sendable {
                 case .headerSearchPath, .define, .linkedLibrary, .linkedFramework,
                     .interoperabilityMode,
                     .enableUpcomingFeature, .enableExperimentalFeature, .swiftLanguageMode,
+                    .strictMemorySafety, .treatAllWarnings, .treatWarning, .defaultIsolation,
                     .disableWarning:
                     return false
                 }
