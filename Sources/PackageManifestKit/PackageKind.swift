@@ -45,9 +45,9 @@ extension PackageKind: Encodable {
         case .remoteSourceControl(let url):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .remoteSourceControl)
             try unkeyedContainer.encode(url)
-        case .registry:
+        case .registry(let identity):
             var unkeyedContainer = container.nestedUnkeyedContainer(forKey: .registry)
-            try unkeyedContainer.encode(self.isRoot)
+            try unkeyedContainer.encode(identity)
         }
     }
 }
@@ -88,8 +88,8 @@ extension PackageKind: Decodable {
 
         case .registry:
             var nested = try container.nestedUnkeyedContainer(forKey: .registry)
-            let registryURL = try nested.decode(String.self)
-            self = .registry(registryURL)
+            let identity = try nested.decode(String.self)
+            self = .registry(identity)
         }
     }
 }
